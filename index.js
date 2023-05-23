@@ -4,8 +4,8 @@ const config = require('./config.js')
 const ApiError = require('./api/ApiError.js')
 const mongoose = require ('mongoose')
 const cors = require ('cors')
-const session = require ('express-session')
-const MongoStore = require ('connect-mongo')
+// const session = require ('express-session')
+// const MongoStore = require ('connect-mongo')
 const cookieParser  = require ('cookie-parser')
 const bodyParser  = require ('body-parser')
 const logger = require ('./util/logger.js')
@@ -40,18 +40,19 @@ app.use(bodyParser.urlencoded({
   extended:true
 }));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET_KEY,
-  resave: true,
-  saveUninitialized: false, // don't create session until something stored
-  store: new MongoStore({
-    mongoUrl: config.db.uri,
-    ttl: 2 * 24 * 60 * 60, // Session expiration = 2 days.
-    autoRemove: 'native', // Set MongoDB to clean expired sessions (default mode)
-    collectionName:"sessions",
-    touchAfter: 10 * 60 // time period in seconds = 10 minutes
-  })
-}));
+// This project doesnt use session
+// app.use(session({
+//   secret: process.env.SESSION_SECRET_KEY,
+//   resave: true,
+//   saveUninitialized: false, // don't create session until something stored
+//   store: new MongoStore({
+//     mongoUrl: config.db.uri,
+//     ttl: 2 * 24 * 60 * 60, // Session expiration = 2 days.
+//     autoRemove: 'native', // Set MongoDB to clean expired sessions (default mode)
+//     collectionName:"sessions",
+//     touchAfter: 10 * 60 // time period in seconds = 10 minutes
+//   })
+// }));
 
 app.use(cors({
   origin: ['http://localhost:3000', 'http://127.0.0.1:3000']
@@ -84,7 +85,7 @@ app.use((err, req, res, next) => {
 });
 
 const port = config.server.port
-const host = config.server.host
+// const host = config.server.host
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)

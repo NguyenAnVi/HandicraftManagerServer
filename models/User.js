@@ -5,35 +5,28 @@ const bcrypt = require('bcrypt-nodejs')
 const Schema = new mongoose.Schema({
     name: String,
     email: {
-        type: String,
-        unique: false,
-        sparse: true,
-        validate: {
-          validator: function(v) {
-            return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-          },
-          message: props => `${props.value} is not a valid email address!`
-        }
-      },
-      phone: {
-        type: String,
-        unique: true,
-        validate: {
-          validator: function(v) {
-            return /^[0-9]{10}$/.test(v);
-          },
-          message: props => `${props.value} is not a valid phone number!`
-        }
-      },
-    // phone: {
-    //     type: String,
-    //     unique: true
-    // },
-    // email: {
-    //     type: String,
-    //     unique: true,
-    //     lowercase: true
-    // },
+      type: String,
+      lowercase: true,
+      unique: false,
+      sparse: true,
+      validate: {
+        validator: function(v) {
+          return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
+        },
+        message: props => `${props.value} is not a valid email address!`
+      }
+    },
+    phone: {
+      type: String,
+      unique: true,
+      validate: {
+        validator: function(v) {
+          return /^[0-9]{10}$/.test(v);
+        },
+        message: props => `${props.value} is not a valid phone number!`
+      }
+    },
+    role: mongoose.Schema.Types.ObjectId,
     password: String
     
 })

@@ -2,7 +2,7 @@
 This project is a Web Server manage , with **Express**, **TypeScript**
 
 # Installation
-Create file ```/.env``` with contents:
+## Create file ```/.env``` with contents:
 ```
 NODE_ENV=PRODUCTION
 SERVER_HOST= <YOUR_SERVER_URI>
@@ -11,3 +11,24 @@ JWT_SECRET= <YOUR_SECRET_KEY>
 MONGODB_URI= <YOUR_MONGODB_URI>
 MONGODB_TABLE= <YOUR_MONGODB_COLLECTION_>
 ```
+
+## Open terminal run this command:
+```
+yarn
+```
+
+or
+
+```
+npm install
+```
+
+## Run the server with command:
+```
+yarn start
+```
+or
+```
+npm start
+```
+****

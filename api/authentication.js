@@ -13,21 +13,25 @@ module.exports = {
     
     UserModel
       .findOne({
-        phone: phone
+        $or : [
+          { phone: phone },
+          { email : email }
+        ]
       })
       .then(
         function (result) {
           if (result) {
             return res
               .status(422)
-              .send({ error: 'Phone is in use' });
+              .send({ error: 'Phone or email is in use' });
           } else {
               
             var user = new UserModel({
               name: name,
               phone: phone,
               password: password,
-              email: (email)?(email):("")
+              email: (email)?(email):(""),
+              role: "TEMP_GUEST"
             });
 
             user
@@ -40,7 +44,8 @@ module.exports = {
                   success: true,
                   user: {
                     name: result.name || "",
-                    email: result.email || ""
+                    email: result.email || "",
+                    role: result.role
                   },
                   token: token.generateToken(result)
                 })

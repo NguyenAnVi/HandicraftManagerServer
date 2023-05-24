@@ -26,7 +26,7 @@ const Schema = new mongoose.Schema({
         message: props => `${props.value} is not a valid phone number!`
       }
     },
-    role: mongoose.Schema.Types.ObjectId,
+    role: String,
     password: String
     
 })

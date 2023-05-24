@@ -6,6 +6,7 @@ const token = {
         const timeStamp = new Date().getTime();
         const payload = {
             sub: user.id,
+            role: user.role,
             iat: timeStamp
         }
         return jwt.encode(payload, config.jwt_secret);

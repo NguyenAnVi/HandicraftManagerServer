@@ -1,16 +1,19 @@
 'use strict'
 const express = require('express')
-const config = require('./config.js')
-const ApiError = require('./api/ApiError.js')
 const mongoose = require ('mongoose')
 const cors = require ('cors')
-// const session = require ('express-session')
-// const MongoStore = require ('connect-mongo')
 const cookieParser  = require ('cookie-parser')
 const bodyParser  = require ('body-parser')
-const logger = require ('./util/logger.js')
-const Authentication = require ('./api/authentication.js')
 const dotenv = require('dotenv')
+
+const config = require('./config.js')
+const logger = require ('./util/logger.js')
+
+const ApiError = require('./api/ApiError.js')
+const Authentication = require ('./api/authentication.js')
+const userAdminRoutes = require ('./userAdmins')
+const Middleware = require('./api/middleware.js')
+
 dotenv.config()
 
 if(!config.jwt_secret || config.jwt_secret==="unsafe_jwt_secret") {
@@ -25,12 +28,9 @@ mongoose.connect(config.db.uri, { useNewUrlParser: true })
   .catch(err => console.log(err))
 
 dotenv.config()
-//use sessions for tracking logins
 
 const app = express()
 
-// app.set('view engine', 'pug');
-// app.set('views','./views');
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 
@@ -40,32 +40,15 @@ app.use(bodyParser.urlencoded({
   extended:true
 }));
 
-// This project doesnt use session
-// app.use(session({
-//   secret: process.env.SESSION_SECRET_KEY,
-//   resave: true,
-//   saveUninitialized: false, // don't create session until something stored
-//   store: new MongoStore({
-//     mongoUrl: config.db.uri,
-//     ttl: 2 * 24 * 60 * 60, // Session expiration = 2 days.
-//     autoRemove: 'native', // Set MongoDB to clean expired sessions (default mode)
-//     collectionName:"sessions",
-//     touchAfter: 10 * 60 // time period in seconds = 10 minutes
-//   })
-// }));
-
 app.use(cors({
   origin: ['http://localhost:3000', 'http://127.0.0.1:3000']
 }));
-
-// import userRoutes from './routes/userRoutes.js'
-// import adminRoutes from './routes/adminRoutes.js'
 
 app.get('/', (req, res) => res.json({'source': 'https://github.com/NguyenAnVi/bubupharmacymern.git'}))
 app.get('/ping', (req, res) => res.send('pong'))
 app.post('/signup', Authentication.signup)
 app.post('/signin', Authentication.signin)
-// app.use('/', userRoutes)
+app.post('/admin', Middleware.loginRequired,userAdminRoutes.home)
 
 // handle 404 response
 app.use((req, res, next) => {

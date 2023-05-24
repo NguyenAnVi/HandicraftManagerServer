@@ -32,3 +32,24 @@ or
 npm start
 ```
 ****
+
+# Usage
+## Available routes
+* **/signup**  with the body look like this:
+  ```
+  {
+    name: < User's name >,
+    email: < User's email, optional >,
+    phone: <User's phone, required for signin >,
+    password: <User's password, required >
+  }
+  ```
+  <image src="./readme_asset/routes/signup-route.png" style="width:50%;border-radius:16px;margin-left:25%"></image>
+* **/signin**  with the body look like this:
+  ```
+  {
+    phone: < user's phone number >,
+    password: < user's password >
+  }
+  ```
+  <image src="./readme_asset/routes/signin-route.png" style="width:50%;border-radius:16px;margin-left:25%"></image>

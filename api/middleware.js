@@ -13,7 +13,7 @@ const loginRequired = (req, res, next) => {
               error: 'Middleware error: User not found!!!'
           });
         }
-        if (result.role != payload  .role)
+        if (result.role != payload.role)
           return res.status(403).send({
             error: 'Middleware error: User\'s role not found!!!'
           });

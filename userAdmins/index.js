@@ -2,7 +2,7 @@ const UserModel = require('../models/User')
 
 module.exports = {
   home: (req, res)=>{
-    return res.status(200).send({message:"success admin home"})
+    return res.status(200).send({message:`success admin home ${req.user.role}`})
   },
   addVillage : ( uid ) => {
     UserModel.findById(uid)

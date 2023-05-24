@@ -1,10 +1,23 @@
-const UserModel = require('../models/User')
+import {UserModel} from '../models/User'
+import { Request, Response } from 'express'
 
-module.exports = {
-  home: (req, res)=>{
+interface USchema{
+  name: string,
+  email: string,
+  phone: string,
+  password: string,
+  role: string
+}
+
+interface ModRequest extends Request{
+  user: USchema
+}
+
+const userAdmin = {
+  home: (req: ModRequest, res : Response)=>{
     return res.status(200).send({message:`success admin home ${req.user.role}`})
   },
-  addVillage : ( uid ) => {
+  addVillage : ( uid:string ) => {
     UserModel.findById(uid)
       .then((result)=>{
         console.log("findById:",result);
@@ -20,3 +33,4 @@ module.exports = {
   }
 
 }
+export {userAdmin};
